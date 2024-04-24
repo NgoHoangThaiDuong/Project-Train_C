@@ -118,6 +118,7 @@ void deleteProduct(int productId) {
     }
     return;
 }
+
 void addToCart(int productId, int quantity) {
     int found = 0;
     int i, j;
@@ -197,7 +198,56 @@ void removeFromCart(int productId) {
     }
     return;
 }
+void saveProducts() {
+    file = fopen("products.txt", "w");
+    if (file == NULL) {
+        printf("Error opening file!\n");
+        return;
+    }
+    for (int i = 0; i < productCount; i++) {
+        fprintf(file, "%d,%s,%.2f,%d\n", products[i].id, products[i].name, products[i].price, products[i].quantityInStock);
+    }
+    fclose(file);
+}
+void saveCartToFile() {
+    file = fopen("cart.txt", "w");
+    if (file == NULL) {
+        printf("Error opening file!\n");
+        return;
+    }
+    for (int i = 0; i < itemCount; i++) {
+        fprintf(file, "%d,%d\n", cart[i].product.id, cart[i].quantity);
+    }
+    fclose(file);
+}
+void loadProductsFromFile() {
+    file = fopen("products.txt", "r");
+    if (file == NULL) {
+        printf("No saved products!\n");
+        return;
+    }
+    
+    char line[100];
+    while (fgets(line, sizeof(line), file) != NULL) {
+        sscanf(line, "%d,%[^,],%f,%d", &products[productCount].id, products[productCount].name, &products[productCount].price, &products[productCount].quantityInStock);
+        productCount++;
+    }
+    fclose(file);
+}
+void loadCartFromFile() {
+    file = fopen("cart.txt", "r");
+    if (file == NULL) {
+        printf("No saved cart items!\n");
+        return;
+    }
 
+    char line[100];
+    while (fgets(line, sizeof(line), file) != NULL) {
+        sscanf(line, "%d,%d,%d", &cart[itemCount].product.id, &cart[itemCount].quantity, &cart[itemCount].product.quantityInStock);
+        itemCount++;
+    }
 
+    fclose(file);
+}
 
 
