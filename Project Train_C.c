@@ -80,10 +80,12 @@ void displayProducts(){
         return;
     }
     printf("\tProduct list:\n");
+    for (i = 0; i < productCount; i++) {
     printf("\tID: %d\n", products[i].id );
     printf("\tProduct Name: %s\n", products[i].name);
     printf("\tPrice: %.2f\n", products[i].price);
     printf("\tQuantity in Stock: %d\n", products[i].quantityInStock);
+}
 }
 void editProduct(int productId) {
 
@@ -640,7 +642,6 @@ int main() {
 			    }
 		    } else if(saler_choice == 4)
 	    	{
-	    		SaveandLoadData(0);
 			    system("cls");
 			    fflush(stdin);
 			    displayProducts();
