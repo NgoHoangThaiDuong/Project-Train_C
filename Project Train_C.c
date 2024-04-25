@@ -75,19 +75,18 @@ void addProduct() {
 void displayProducts(){
 	int i; 
     if (productCount == 0) {
-        printf("\t\t\t\t\t**********NO PRODUCTS TO DISPLAY**********\n");
+        printf("\n\n\t\t\t\t\t**********NO PRODUCTS TO DISPLAY**********\n");
         check = 0;
         return;
     }
-	for (i = 0; i < productCount; i++) {
     printf("\tProduct list:\n");
     printf("\tID: %d\n", products[i].id );
     printf("\tProduct Name: %s\n", products[i].name);
     printf("\tPrice: %.2f\n", products[i].price);
     printf("\tQuantity in Stock: %d\n", products[i].quantityInStock);
 }
-}
 void editProduct(int productId) {
+
     int found = 0;
     int i;
     for ( i = 0; i < productCount; i++) {
@@ -445,7 +444,13 @@ void login()
 	}
 	if(check_status)
 	{
-		printf("Your are successfully logged in\n\n");
+		printf("\t\t\t\t\t**********YOUR ARE SUCCESSFULLY LOGGED IN**********\n");
+		system("pause");
+		FILE *file_loggin;
+		file_loggin = fopen("thongtindangnhap.txt", "a");
+		fprintf(file_loggin, "%s\n", t_email);
+		fprintf(file_loggin, "%s\n", t_password1);
+		fclose(file_loggin);
 	}
 }
 
@@ -502,7 +507,7 @@ void SaveandLoadData(int action){
 
 int main() {
 	SaveandLoadData(0);
-	printf("\t\t\t\t\t**********WELCOME TO THIS PAGE**********\n");
+	printf("\n\n\n\n\n\t\t\t\t**********WELCOME TO THIS PAGE**********\n");
 	int client;
 	printf("\tWHO ARE YOU ?\n");
 	printf("\t1 : CLIENT\n");
@@ -514,7 +519,7 @@ int main() {
 		while(1)
 		{
 			system("cls");
-			printf("\t\t\t\t\t**********WELCOME TO THIS PAGE**********\n");
+			printf("\n\n\n\t\t\t\t\t**********WELCOME TO THIS PAGE**********\n");
 			int client_choice;
 			printf("\t1 : SIGN UP \n");
 		    printf("\t2 : LOG IN \n");
@@ -542,7 +547,7 @@ int main() {
 			if(!check) 
 			{
 				
-				printf("\t\t\t\t\t**********YOU WILL RETURN TO THE HOMEPAGE**********\n");
+				printf("\n\t\t\t\t\t**********YOU WILL RETURN TO THE HOMEPAGE**********\n");
 				check = 1;
 				system("pause");
 				system("cls");
@@ -557,11 +562,12 @@ int main() {
 			for(i=0; i<product_number; i++)
 			{
 				int Product_ID, quantity_of_product;
-				printf("\tPLEASE CHOOSE ITEM WHICH YOU LIKE : ");
+				printf("\tPLEASE CHOOSE ID ITEM WHICH YOU LIKE : ");
 				scanf("%d", &Product_ID);
 				printf("\tPLEASE CHOOSE THE QUANTITY OF ITEM : ");
 				scanf("%d", &quantity_of_product);
 				addToCart(Product_ID, quantity_of_product);
+				SaveandLoadData(1);
 			}
 			system("cls");
 			create_order();
@@ -598,9 +604,11 @@ int main() {
 			    for(i=0; i<number; i++)
 			    {
 				   addProduct();
+				   SaveandLoadData(1);
 			    }
 		    } else if(saler_choice == 2)
 		    {
+		    	displayProducts();
 			    printf("\tENTER THE PRODUCT NUMBER YOU WANT TO EDIT : ");
 			    int number;
 			    scanf("%d", &number);
@@ -608,13 +616,15 @@ int main() {
 			    fflush(stdin);
 			    for(i=0; i<number; i++)
 			    {
-				    printf("\tCHOOSE ITEM TO EDIT : ");
+				    printf("\tCHOOSE ID TO EDIT : ");
 			        scanf("%d", &saler_product);
 			        fflush(stdin);
 			        editProduct(saler_product);
+			        SaveandLoadData(1);
 			    }
 		    } else if (saler_choice == 3)
 		    {
+		    	displayProducts();
 			    printf("\tENTER THE PRODUCT NUMBER YOU WANT TO DELETE : ");
 			    int number;
 			    scanf("%d", &number);
@@ -622,16 +632,19 @@ int main() {
 			    fflush(stdin);
 			    for(i=0; i<number; i++)
 			    {
-				    printf("\tCHOOSE ITEM TO DELETE : ");
+				    printf("\tCHOOSE ID ITEM TO DELETE : ");
 			        scanf("%d", &saler_product);
 			        fflush(stdin);
 			        deleteProduct(saler_product);
+			        SaveandLoadData(1);
 			    }
 		    } else if(saler_choice == 4)
 	    	{
+	    		SaveandLoadData(0);
 			    system("cls");
 			    fflush(stdin);
 			    displayProducts();
+			    SaveandLoadData(1);
 	    	} else 
 	    	{
 			    printf("\tYOU CHOOSED INVALID OPTION");
