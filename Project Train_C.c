@@ -132,7 +132,7 @@ void deleteProduct(int productId) {
     return;
 }
 
-	void addToCart(int productId, int quantity) {
+void addToCart(int productId, int quantity) {
     int found = 0;
     int i, j;
     for ( i = 0; i < productCount; i++) {
@@ -162,6 +162,7 @@ void deleteProduct(int productId) {
                 
             }else {
                 printf("\tQuantity of product is insufficient!\n");
+                return;
             }
             break;
         }
@@ -169,6 +170,7 @@ void deleteProduct(int productId) {
 
     if (!found) {
         printf("\tProduct not found!\n");
+        return;
     }
     return;
 }
@@ -193,9 +195,10 @@ void displayCart() {
     printf("\tProduct Name: %s\n", cart[i].product.name);
     printf("\tPrice: %.2f\n", cart[i].product.price);
     printf("\tQuantity: %d\n", cart[i].quantity);
-    printf("\tTotal Price: %.2f\n", calculateTotalPrice());
-    return;
+    printf("\tTotal Price for this item: %.2f\n", cart[i].product.price * cart[i].quantity);
 }
+    printf("\tTotal Price: %.2f\n", calculateTotalPrice());
+return;
 }
 void removeFromCart(int productId) {
     int found = 0;
@@ -237,7 +240,7 @@ void saveCartToFile() {
         return;
     }
     for ( i = 0; i < itemCount; i++) {
-        fprintf(file, "%d,%d\n", cart[i].product.id, cart[i].quantity);
+        fprintf(file, "%d,%d,%d\n", cart[i].product.id, cart[i].quantity, cart[i].product.quantityInStock);
     }
     fclose(file);
 }
@@ -325,7 +328,7 @@ void create_order()
 		check_order = 0;
 	} else if(check == 3)
 	{
-		printf("\tPayment of %.2f USD processed successfully for user: %s\n", amount, t_name);
+		printf("\tPayment processed successfully for user: %s\n", t_name);
 		system("pause"); 
 	}
 }
