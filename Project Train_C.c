@@ -132,7 +132,7 @@ void deleteProduct(int productId) {
     return;
 }
 
-void addToCart(int productId, int quantity) {
+	void addToCart(int productId, int quantity) {
     int found = 0;
     int i, j;
     for ( i = 0; i < productCount; i++) {
@@ -154,6 +154,12 @@ void addToCart(int productId, int quantity) {
                 products[i].quantityInStock -= quantity;
                 found = 1;
                 printf("\tProduct added to cart!\n");
+                printf("\tID: %d\n", products[i].id);
+                printf("\tProduct Name: %s\n", products[i].name);
+                printf("\tPrice: %.2f\n", products[i].price);
+                printf("\tQuantity: %d\n", quantity);
+                printf("\tTotal Price for this item: %.2f\n", products[i].price * quantity);
+                
             }else {
                 printf("\tQuantity of product is insufficient!\n");
             }
@@ -243,8 +249,15 @@ void loadProductsFromFile() {
     }
     
     char line[100];
+    int i; 
     while (fgets(line, sizeof(line), file) != NULL) {
         sscanf(line, "%d,%[^,],%f,%d", &products[productCount].id, products[productCount].name, &products[productCount].price, &products[productCount].quantityInStock);
+         for ( i = 0; i < productCount; i++) {
+        if (products[i].id == products[productCount].id) {
+            productCount--;
+            break;
+        }
+    }
         productCount++;
     }
     fclose(file);
